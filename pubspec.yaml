@@ -20,7 +20,6 @@ dependencies:
   loading_animation_widget:
   url_launcher:
   skeletonizer:
-  loadmore_listview:
   flutter_svg:
   flutter_dotenv:
   permission_handler:

@@ -2,19 +2,15 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:blott_mobile_test/main.dart';
-import 'package:blott_mobile_test/src/constants/consts.dart';
-import 'package:blott_mobile_test/src/controllers/api_processor_controller.dart';
 import 'package:blott_mobile_test/src/controllers/user_controller.dart';
 import 'package:blott_mobile_test/src/models/market_news_list_model.dart';
 import 'package:blott_mobile_test/src/models/market_news_model.dart';
 import 'package:blott_mobile_test/src/service/api_url.dart';
 import 'package:blott_mobile_test/src/service/http_client_service.dart';
-import 'package:blott_mobile_test/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:permission_handler/permission_handler.dart';
 
 class HomeController extends GetxController {
   static HomeController get instance {
@@ -23,7 +19,6 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
-    if (!isNotificationGranted) requestPermissionToSendNotifications();
     loadUserFirstName();
     await loadContent();
     await loadInitialData();
@@ -74,45 +69,6 @@ class HomeController extends GetxController {
 
 //================ Check notification permission status =================//
   var isNotificationGranted = prefs.getBool("isNotificationGranted") ?? false;
-
-  void requestPermissionToSendNotifications() async {
-    Get.defaultDialog(
-      backgroundColor: kLightBackgroundColor,
-      title: '"Blott" would like to Send You Notifications Denied',
-      titleStyle: defaultTextStyle(
-        color: kTextBlackColor,
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
-      ),
-      content: Text(
-        'Notifications may include alerts, sounds, and icon badges. These can be configured in Settings.',
-        textAlign: TextAlign.center,
-        style: defaultTextStyle(
-          color: kTextBlackColor,
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      onConfirm: () async {
-        PermissionStatus permissionStatus =
-            await Permission.notification.request();
-
-        if (permissionStatus.isGranted) {
-          isNotificationGranted = true;
-          prefs.setBool("isNotificationGranted", true);
-          ApiProcessorController.successSnack("Notifications are enabled");
-
-          Get.close(0);
-        } else if (permissionStatus.isDenied) {
-          Permission.accessNotificationPolicy.request();
-        } else if (permissionStatus.isPermanentlyDenied) {
-          openAppSettings();
-        }
-      },
-      textConfirm: 'Allow',
-      textCancel: "Cancel",
-    );
-  }
 
   Future<void> loadUserFirstName() async {
     firstName = userController.getFirstName() ?? "";

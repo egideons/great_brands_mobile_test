@@ -7,7 +7,6 @@ import 'package:blott_mobile_test/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loadmore_listview/loadmore_listview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScaffold extends GetView<HomeController> {
@@ -66,21 +65,11 @@ class HomeScaffold extends GetView<HomeController> {
                       ),
                     );
                   } else {
-                    return LoadMoreListView.separated(
+                    return ListView.separated(
                       itemCount: controller.displayedMarketNews.length +
                           (controller.hasMoreData.value ? 1 : 0),
-                      refreshColor: kLightBackgroundColor,
-                      refreshBackgroundColor: kPrimaryColor,
                       controller: controller.scrollController,
-                      hasMoreItem: controller.hasMoreData.value,
-                      onLoadMore: controller.loadMore,
-                      onRefresh: controller.loadContent,
                       padding: const EdgeInsets.all(10),
-                      loadMoreWidget: Container(
-                        margin: const EdgeInsets.all(20.0),
-                        alignment: Alignment.center,
-                        child: CupertinoActivityIndicator(color: kPrimaryColor),
-                      ),
                       separatorBuilder: (context, index) => kSizedBox,
                       itemBuilder: (context, index) {
                         var news = controller.marketNews[index];
