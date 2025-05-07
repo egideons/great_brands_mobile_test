@@ -1,0 +1,1 @@
+C:\Projects\Tests\great_brands_mobile_test\build\app\intermediates\cxx\Debug\6451a2d6\obj\arm64-v8a

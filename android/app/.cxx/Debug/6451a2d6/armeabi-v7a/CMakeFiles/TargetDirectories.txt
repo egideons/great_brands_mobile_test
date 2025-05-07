@@ -1,0 +1,2 @@
+C:/Projects/Tests/great_brands_mobile_test/android/app/.cxx/Debug/6451a2d6/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Projects/Tests/great_brands_mobile_test/android/app/.cxx/Debug/6451a2d6/armeabi-v7a/CMakeFiles/rebuild_cache.dir
