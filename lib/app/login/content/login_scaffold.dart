@@ -1,6 +1,7 @@
 import 'package:blott_mobile_test/app/login/content/login_form.dart';
 import 'package:blott_mobile_test/src/constants/consts.dart';
 import 'package:blott_mobile_test/theme/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,7 +30,7 @@ class LoginScaffold extends GetView<LoginController> {
           disabledElevation: 0,
           elevation: 20,
           child: controller.isLoading.isTrue
-              ? CircularProgressIndicator(color: kLightBackgroundColor)
+              ? CupertinoActivityIndicator(color: kLightBackgroundColor)
               : const Icon(Icons.chevron_right, size: 34),
         );
       }),

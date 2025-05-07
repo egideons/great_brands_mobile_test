@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "20625369508",
+    "project_id": "great-brands-mobile-test",
+    "storage_bucket": "great-brands-mobile-test.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20625369508:android:1e7499552f4fe4acabb931",
+        "android_client_info": {
+          "package_name": "com.greatbrands.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_ef2gGEZNMu2EpSRN5-3GxZZVKMNrcTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

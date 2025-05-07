@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:blott_mobile_test/src/controllers/connectivity_status_controller.dart';
 import 'package:blott_mobile_test/src/controllers/user_controller.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'firebase_options.dart';
 import 'src/routes/routes.dart';
 import 'src/utils/components/app_error_widget.dart';
 import 'theme/colors.dart';
@@ -16,15 +20,17 @@ import 'theme/colors.dart';
 late SharedPreferences prefs;
 
 void main() async {
-  await dotenv.load(fileName: ".env");
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(statusBarColor: kTransparentColor),
   );
   WidgetsFlutterBinding.ensureInitialized();
-  // Lock device orientation to portrait up
-  // await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   prefs = await SharedPreferences.getInstance();
+
+  Get.put(ConnectivityStatusController());
+
+  await dotenv.load(fileName: ".env");
 
   //This is to handle widget errors by showing a custom error widget screen
   if (kReleaseMode) ErrorWidget.builder = (_) => const AppErrorWidget();
@@ -43,10 +49,62 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        log("App resumed");
+        restoreAppState();
+        break;
+      case AppLifecycleState.inactive:
+        log("App inactive");
+        break;
+      case AppLifecycleState.paused:
+        log("App paused");
+        saveAppState();
+        break;
+      case AppLifecycleState.detached:
+        log("App detached");
+        break;
+      case AppLifecycleState.hidden:
+        log("App hidden");
+        break;
+    }
+  }
+
+  void saveAppState() async {
+    await prefs.setBool("appMinimized", true);
+    log("App state saved");
+  }
+
+  void restoreAppState() async {
+    bool? wasMinimized = prefs.getBool("appMinimized");
+    if (wasMinimized == true) {
+      log("Restoring app state...");
+      await prefs.setBool("appMinimized", false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

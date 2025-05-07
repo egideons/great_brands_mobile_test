@@ -14,7 +14,6 @@ class EnableNotifScaffold extends GetView<NotificationsController> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    // var colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       backgroundColor: kLightBackgroundColor,
@@ -30,9 +29,29 @@ class EnableNotifScaffold extends GetView<NotificationsController> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SvgPicture.asset(
-                  Assets.notificationSvg,
-                  alignment: Alignment.center,
+                Stack(
+                  children: [
+                    SvgPicture.asset(
+                      Assets.notificationSvg,
+                      alignment: Alignment.center,
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        height: 20,
+                        width: 20,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          border: Border.all(
+                            color: kPrimaryColor,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 kSizedBox,
                 Text(

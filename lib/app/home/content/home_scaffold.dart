@@ -4,10 +4,10 @@ import 'package:blott_mobile_test/src/constants/consts.dart';
 import 'package:blott_mobile_test/src/controllers/home_controller.dart';
 import 'package:blott_mobile_test/src/controllers/url_launch_controller.dart';
 import 'package:blott_mobile_test/theme/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loadmore_listview/loadmore_listview.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScaffold extends GetView<HomeController> {
@@ -50,22 +50,7 @@ class HomeScaffold extends GetView<HomeController> {
                 init: HomeController(),
                 builder: (controller) {
                   if (controller.isLoading.value) {
-                    return Skeletonizer(
-                      child: ListView.separated(
-                        itemCount: 10,
-                        separatorBuilder: (context, index) => kSizedBox,
-                        itemBuilder: (context, index) {
-                          return homeContent(
-                            source: "The Economic Times",
-                            date: "21 June 2021",
-                            imageSource: "",
-                            title:
-                                "Sensex ekes out small gain, Nifty50 ends flat; 2 Adani stocks rally up to 9%",
-                            onTap: () {},
-                          );
-                        },
-                      ),
-                    );
+                    return CupertinoActivityIndicator(color: kPrimaryColor);
                   }
                   if (controller.hasError.value) {
                     return Padding(
@@ -94,11 +79,7 @@ class HomeScaffold extends GetView<HomeController> {
                       loadMoreWidget: Container(
                         margin: const EdgeInsets.all(20.0),
                         alignment: Alignment.center,
-                        child: CircularProgressIndicator(
-                          backgroundColor: kPrimaryColor,
-                          valueColor:
-                              AlwaysStoppedAnimation(kLightBackgroundColor),
-                        ),
+                        child: CupertinoActivityIndicator(color: kPrimaryColor),
                       ),
                       separatorBuilder: (context, index) => kSizedBox,
                       itemBuilder: (context, index) {
