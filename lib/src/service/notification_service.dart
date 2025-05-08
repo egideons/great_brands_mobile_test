@@ -162,11 +162,15 @@ class NotificationService {
   }) async {
     await setupFlutterNotifications();
 
+    //Get FCM token
+    final token = await _messaging.getToken();
+    log("$token", name: "FCM Token");
+
     await _localNotifcations.show(
       id,
       title,
       body,
-      NotificationDetails(
+      const NotificationDetails(
         android: AndroidNotificationDetails(
           "high_importance_channel",
           "High Importance Notifications",
@@ -175,12 +179,8 @@ class NotificationService {
           importance: Importance.high,
           priority: Priority.high,
           icon: "@mipmap/ic_launcher",
-          playSound: true,
-          enableVibration: true,
-          enableLights: true,
-          ledColor: kPrimaryColor,
         ),
-        iOS: const DarwinNotificationDetails(
+        iOS: DarwinNotificationDetails(
           presentAlert: true,
           presentBadge: true,
           presentSound: true,

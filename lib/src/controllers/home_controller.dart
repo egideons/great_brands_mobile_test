@@ -52,6 +52,8 @@ class HomeController extends GetxController {
   }
 
   Future<void> createNotification() async {
+    firstName = userController.getFirstName() ?? "";
+
     await NotificationService.instance.showLocalNotification(
       id: 1,
       title: "Welcome to Great Brands",
