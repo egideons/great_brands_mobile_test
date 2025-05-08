@@ -1,13 +1,22 @@
 import 'dart:developer';
 
-import 'package:blott_mobile_test/theme/colors.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:great_brands_mobile_test/theme/colors.dart';
 
 @pragma("vm:entry-point")
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await NotificationService.instance.setupFlutterNotifications();
   await NotificationService.instance.showNotification(message);
+}
+
+@pragma('vm:entry-point')
+void onDidReceiveBackgroundNotificationResponse(NotificationResponse details) {
+  // Handle background tap (e.g. extract payload)
+  log(
+    'Notification tapped in background: ${details.payload}',
+    name: 'BackgroundNotif',
+  );
 }
 
 class NotificationService {
@@ -107,7 +116,8 @@ class NotificationService {
 
     await _localNotifcations.initialize(
       initializationSettings,
-      onDidReceiveBackgroundNotificationResponse: (details) {},
+      onDidReceiveBackgroundNotificationResponse:
+          onDidReceiveBackgroundNotificationResponse,
       onDidReceiveNotificationResponse: (details) {},
     );
 
@@ -142,5 +152,42 @@ class NotificationService {
         payload: message.data.toString(),
       );
     }
+  }
+
+  Future<void> showLocalNotification({
+    required int id,
+    required String title,
+    required String body,
+    String? payload,
+  }) async {
+    await setupFlutterNotifications();
+
+    await _localNotifcations.show(
+      id,
+      title,
+      body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          "high_importance_channel",
+          "High Importance Notifications",
+          channelDescription:
+              "This channel is used for important notifications",
+          importance: Importance.high,
+          priority: Priority.high,
+          icon: "@mipmap/ic_launcher",
+          sound: const RawResourceAndroidNotificationSound("notification"),
+          playSound: true,
+          enableVibration: true,
+          enableLights: true,
+          ledColor: kPrimaryColor,
+        ),
+        iOS: const DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+        ),
+      ),
+      payload: payload,
+    );
   }
 }

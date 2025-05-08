@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:blott_mobile_test/app/home/screen/home.dart';
-import 'package:blott_mobile_test/app/login/screen/login.dart';
-import 'package:blott_mobile_test/src/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:great_brands_mobile_test/app/home/screen/home.dart';
+import 'package:great_brands_mobile_test/app/login/screen/login.dart';
+import 'package:great_brands_mobile_test/src/controllers/user_controller.dart';
 
 class AuthController extends GetxController {
   static AuthController get instance {

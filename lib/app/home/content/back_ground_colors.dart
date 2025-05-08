@@ -1,5 +1,5 @@
-import 'package:blott_mobile_test/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:great_brands_mobile_test/theme/colors.dart';
 
 backgroundColors() {
   return Column(

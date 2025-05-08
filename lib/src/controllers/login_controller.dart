@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:blott_mobile_test/src/constants/consts.dart';
-import 'package:blott_mobile_test/src/controllers/api_processor_controller.dart';
-import 'package:blott_mobile_test/src/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:great_brands_mobile_test/src/constants/consts.dart';
+import 'package:great_brands_mobile_test/src/controllers/api_processor_controller.dart';
+import 'package:great_brands_mobile_test/src/controllers/user_controller.dart';
 import 'package:hive/hive.dart';
 
 import '../../app/enable_notif/screen/enable_notif.dart';

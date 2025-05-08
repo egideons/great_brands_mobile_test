@@ -2,15 +2,16 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:blott_mobile_test/main.dart';
-import 'package:blott_mobile_test/src/controllers/user_controller.dart';
-import 'package:blott_mobile_test/src/models/market_news_list_model.dart';
-import 'package:blott_mobile_test/src/models/market_news_model.dart';
-import 'package:blott_mobile_test/src/service/api_url.dart';
-import 'package:blott_mobile_test/src/service/http_client_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:great_brands_mobile_test/main.dart';
+import 'package:great_brands_mobile_test/src/controllers/user_controller.dart';
+import 'package:great_brands_mobile_test/src/models/market_news_list_model.dart';
+import 'package:great_brands_mobile_test/src/models/market_news_model.dart';
+import 'package:great_brands_mobile_test/src/service/api_url.dart';
+import 'package:great_brands_mobile_test/src/service/http_client_service.dart';
+import 'package:great_brands_mobile_test/src/service/notification_service.dart';
 
 class HomeController extends GetxController {
   static HomeController get instance => Get.find<HomeController>();
@@ -41,12 +42,23 @@ class HomeController extends GetxController {
     loadUserFirstName();
     loadContent();
     scrollController.addListener(scrollListener);
+    createNotification();
   }
 
   @override
   void onClose() {
     scrollController.dispose();
     super.onClose();
+  }
+
+  Future<void> createNotification() async {
+    await NotificationService.instance.showLocalNotification(
+      id: 1,
+      title: "Welcome to Great Brands",
+      body:
+          "Hello $firstName, welcome to Great Brands. We are glad to have you here. Enjoy your stay!",
+      payload: "Welcome to Great Brands",
+    );
   }
 
   //================ Load User =================\\

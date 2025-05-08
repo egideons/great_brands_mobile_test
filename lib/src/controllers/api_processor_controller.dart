@@ -1,9 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:blott_mobile_test/src/constants/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
+import 'package:great_brands_mobile_test/src/constants/consts.dart';
 
 import '../../../theme/colors.dart';
 

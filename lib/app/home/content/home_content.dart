@@ -1,7 +1,7 @@
-import 'package:blott_mobile_test/src/constants/assets.dart';
-import 'package:blott_mobile_test/src/constants/consts.dart';
-import 'package:blott_mobile_test/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:great_brands_mobile_test/src/constants/assets.dart';
+import 'package:great_brands_mobile_test/src/constants/consts.dart';
+import 'package:great_brands_mobile_test/theme/colors.dart';
 
 homeContent({
   void Function()? onTap,

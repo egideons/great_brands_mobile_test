@@ -1,10 +1,10 @@
-import 'package:blott_mobile_test/src/constants/assets.dart';
-import 'package:blott_mobile_test/src/constants/consts.dart';
-import 'package:blott_mobile_test/src/utils/button/android_elevated_button.dart';
-import 'package:blott_mobile_test/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:great_brands_mobile_test/src/constants/assets.dart';
+import 'package:great_brands_mobile_test/src/constants/consts.dart';
+import 'package:great_brands_mobile_test/src/utils/button/android_elevated_button.dart';
+import 'package:great_brands_mobile_test/theme/colors.dart';
 
 import '../../../src/controllers/notifications_controller.dart';
 

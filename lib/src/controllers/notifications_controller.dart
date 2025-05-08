@@ -1,9 +1,9 @@
-import 'package:blott_mobile_test/app/home/screen/home.dart';
-import 'package:blott_mobile_test/main.dart';
-import 'package:blott_mobile_test/src/controllers/api_processor_controller.dart';
-import 'package:blott_mobile_test/src/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:great_brands_mobile_test/app/home/screen/home.dart';
+import 'package:great_brands_mobile_test/main.dart';
+import 'package:great_brands_mobile_test/src/controllers/api_processor_controller.dart';
+import 'package:great_brands_mobile_test/src/service/notification_service.dart';
 
 class NotificationsController extends GetxController {
   static NotificationsController get instance {

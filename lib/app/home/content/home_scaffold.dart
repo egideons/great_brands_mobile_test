@@ -1,12 +1,12 @@
-import 'package:blott_mobile_test/app/home/content/back_ground_colors.dart';
-import 'package:blott_mobile_test/app/home/content/home_content.dart';
-import 'package:blott_mobile_test/src/constants/consts.dart';
-import 'package:blott_mobile_test/src/controllers/home_controller.dart';
-import 'package:blott_mobile_test/src/controllers/url_launch_controller.dart';
-import 'package:blott_mobile_test/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:great_brands_mobile_test/app/home/content/back_ground_colors.dart';
+import 'package:great_brands_mobile_test/app/home/content/home_content.dart';
+import 'package:great_brands_mobile_test/src/constants/consts.dart';
+import 'package:great_brands_mobile_test/src/controllers/home_controller.dart';
+import 'package:great_brands_mobile_test/src/controllers/url_launch_controller.dart';
+import 'package:great_brands_mobile_test/theme/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScaffold extends GetView<HomeController> {

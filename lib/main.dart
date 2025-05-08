@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-import 'package:blott_mobile_test/src/controllers/connectivity_status_controller.dart';
-import 'package:blott_mobile_test/src/controllers/user_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -9,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:great_brands_mobile_test/src/controllers/connectivity_status_controller.dart';
+import 'package:great_brands_mobile_test/src/controllers/user_controller.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

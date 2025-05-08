@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:blott_mobile_test/src/controllers/api_processor_controller.dart';
-import 'package:blott_mobile_test/theme/colors.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:great_brands_mobile_test/src/controllers/api_processor_controller.dart';
+import 'package:great_brands_mobile_test/theme/colors.dart';
 
 class ConnectivityStatusController extends GetxController {
   static ConnectivityStatusController get instance {

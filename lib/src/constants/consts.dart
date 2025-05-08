@@ -1,8 +1,8 @@
 //default value
 import 'dart:math';
 
-import 'package:blott_mobile_test/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:great_brands_mobile_test/theme/colors.dart';
 import 'package:intl/intl.dart';
 
 //validation for email

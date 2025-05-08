@@ -1,9 +1,9 @@
-import 'package:blott_mobile_test/app/login/content/login_form.dart';
-import 'package:blott_mobile_test/src/constants/consts.dart';
-import 'package:blott_mobile_test/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:great_brands_mobile_test/app/login/content/login_form.dart';
+import 'package:great_brands_mobile_test/src/constants/consts.dart';
+import 'package:great_brands_mobile_test/theme/colors.dart';
 
 import '../../../src/controllers/login_controller.dart';
 

@@ -1,7 +1,7 @@
-import 'package:blott_mobile_test/app/startup/screen/startup_splash.dart';
-import 'package:blott_mobile_test/src/utils/button/android_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:great_brands_mobile_test/app/startup/screen/startup_splash.dart';
+import 'package:great_brands_mobile_test/src/utils/button/android_elevated_button.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../theme/colors.dart';
