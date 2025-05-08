@@ -175,7 +175,6 @@ class NotificationService {
           importance: Importance.high,
           priority: Priority.high,
           icon: "@mipmap/ic_launcher",
-          sound: const RawResourceAndroidNotificationSound("notification"),
           playSound: true,
           enableVibration: true,
           enableLights: true,
