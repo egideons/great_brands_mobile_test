@@ -22,4 +22,4 @@ Built with [Flutter](https://flutter.dev)
 
 or
 
-- [Click here to download from Google Drive](https://drive.google.com/drive/folders/1A6GaHuwQX-pQD6IbKKz_9mgpsLTwDBA-?usp=sharing)
+- [Click here to download from Google Drive](https://drive.google.com/drive/folders/1T_XsiX50O_pBvjIrRMwwjPqzx3ZQknqH?usp=sharing)
