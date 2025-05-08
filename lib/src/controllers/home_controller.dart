@@ -58,7 +58,7 @@ class HomeController extends GetxController {
       id: 1,
       title: "Welcome to Great Brands",
       body:
-          "Hello $firstName, welcome to Great Brands. We are glad to have you here. Enjoy your stay!",
+          "Hello $firstName😊, welcome to Great Brands. We are glad to have you here. Enjoy your stay! ❤️❤️",
       payload: "Welcome to Great Brands",
     );
   }
