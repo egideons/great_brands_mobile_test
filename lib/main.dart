@@ -28,8 +28,6 @@ void main() async {
 
   prefs = await SharedPreferences.getInstance();
 
-  Get.put(ConnectivityStatusController());
-
   await dotenv.load(fileName: ".env");
 
   //This is to handle widget errors by showing a custom error widget screen
