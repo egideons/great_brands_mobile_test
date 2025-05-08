@@ -45,51 +45,74 @@ class HomeScaffold extends GetView<HomeController> {
           child: Stack(
             children: [
               backgroundColors(),
-              GetBuilder<HomeController>(
-                init: HomeController(),
-                builder: (controller) {
-                  if (controller.isLoading.value) {
-                    return CupertinoActivityIndicator(color: kPrimaryColor);
-                  }
-                  if (controller.hasError.value) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        "Something went wrong. Please try again later.",
-                        textAlign: TextAlign.start,
-                        style: defaultTextStyle(
-                          color: kTextWhiteColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    );
-                  } else {
-                    return ListView.separated(
-                      itemCount: controller.displayedMarketNews.length +
-                          (controller.hasMoreData.value ? 1 : 0),
-                      controller: controller.scrollController,
-                      padding: const EdgeInsets.all(10),
-                      separatorBuilder: (context, index) => kSizedBox,
-                      itemBuilder: (context, index) {
-                        var news = controller.marketNews[index];
-                        return homeContent(
-                          source: news.source,
-                          date: formatUNIXTime(news.datetime),
-                          imageSource: news.image,
-                          title: news.headline,
-                          onTap: () {
-                            UrlLaunchController.launchWeb(
-                              news.url,
-                              LaunchMode.externalApplication,
-                            );
-                          },
-                        );
-                      },
-                    );
-                  }
-                },
-              )
+              Obx(() {
+                return RefreshIndicator(
+                  onRefresh: controller.loadContent,
+                  backgroundColor: Colors.white,
+                  color: kPrimaryColor,
+                  child: controller.isLoading.value
+                      ? ListView(
+                          children: const [
+                            SizedBox(height: 300),
+                            Center(
+                                child: CupertinoActivityIndicator(
+                                    color: Colors.white)),
+                          ],
+                        )
+                      : controller.hasError.value
+                          ? ListView(
+                              padding: const EdgeInsets.all(10),
+                              children: [
+                                Text(
+                                  "Something went wrong. Please try again later.",
+                                  textAlign: TextAlign.start,
+                                  style: defaultTextStyle(
+                                    color: kTextWhiteColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : ListView.builder(
+                              controller: controller.scrollController,
+                              padding: const EdgeInsets.all(10),
+                              itemCount: controller.displayedMarketNews.length +
+                                  (controller.hasMoreData.value ? 1 : 0),
+                              itemBuilder: (context, index) {
+                                if (index <
+                                    controller.displayedMarketNews.length) {
+                                  final news =
+                                      controller.displayedMarketNews[index];
+                                  return Column(
+                                    children: [
+                                      homeContent(
+                                        source: news.source,
+                                        date: formatUNIXTime(news.datetime),
+                                        imageSource: news.image,
+                                        title: news.headline,
+                                        onTap: () =>
+                                            UrlLaunchController.launchWeb(
+                                          news.url,
+                                          LaunchMode.externalApplication,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                    ],
+                                  );
+                                } else {
+                                  return const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 20),
+                                    child: Center(
+                                      child: CupertinoActivityIndicator(
+                                          color: Colors.white),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                );
+              })
             ],
           ),
         ),

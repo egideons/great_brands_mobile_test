@@ -21,7 +21,7 @@ class ApiProcessorController extends GetxController {
     }
   }
 
-  static void successSnack(String? msg) {
+  static void successSnack(String? msg, {Icon? icon}) {
     var media = MediaQuery.of(Get.context!).size;
     Get.showSnackbar(
       GetSnackBar(
@@ -48,11 +48,12 @@ class ApiProcessorController extends GetxController {
             fontWeight: FontWeight.w600,
           ),
         ),
-        icon: Icon(
-          Icons.check_circle,
-          size: 16,
-          color: kSuccessColor,
-        ),
+        icon: icon ??
+            Icon(
+              Icons.check_circle,
+              size: 16,
+              color: kSuccessColor,
+            ),
         shouldIconPulse: true,
         isDismissible: true,
         backgroundColor: kLightBackgroundColor,
@@ -87,7 +88,7 @@ class ApiProcessorController extends GetxController {
     );
   }
 
-  static void errorSnack(String? msg) {
+  static void errorSnack(String? msg, {Icon? icon}) {
     var media = MediaQuery.of(Get.context!).size;
 
     Get.showSnackbar(
@@ -117,11 +118,12 @@ class ApiProcessorController extends GetxController {
             letterSpacing: -0.40,
           ),
         ),
-        icon: Icon(
-          Icons.error_rounded,
-          size: 18,
-          color: kErrorColor,
-        ),
+        icon: icon ??
+            Icon(
+              Icons.error_rounded,
+              size: 18,
+              color: kErrorColor,
+            ),
         shouldIconPulse: true,
         isDismissible: true,
         barBlur: 2.0,
@@ -156,7 +158,7 @@ class ApiProcessorController extends GetxController {
     );
   }
 
-  static void warningSnack(String? msg) {
+  static void warningSnack(String? msg, {Icon? icon}) {
     var media = MediaQuery.of(Get.context!).size;
 
     Get.showSnackbar(
@@ -186,11 +188,12 @@ class ApiProcessorController extends GetxController {
             letterSpacing: -0.40,
           ),
         ),
-        icon: Icon(
-          Icons.warning_rounded,
-          size: 18,
-          color: kWarningColor,
-        ),
+        icon: icon ??
+            Icon(
+              Icons.warning_rounded,
+              size: 18,
+              color: kWarningColor,
+            ),
         shouldIconPulse: true,
         isDismissible: true,
         barBlur: 2.0,

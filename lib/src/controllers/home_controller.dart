@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:blott_mobile_test/main.dart';
 import 'package:blott_mobile_test/src/controllers/user_controller.dart';
@@ -10,34 +11,17 @@ import 'package:blott_mobile_test/src/service/http_client_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
-  static HomeController get instance {
-    return Get.find<HomeController>();
-  }
-
-  @override
-  void onInit() async {
-    loadUserFirstName();
-    await loadContent();
-    await loadInitialData();
-    scrollController.addListener(scrollListener);
-    super.onInit();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-    scrollController.dispose();
-  }
+  static HomeController get instance => Get.find<HomeController>();
 
   //================ Controllers =================\\
-  var scrollController = ScrollController();
+  final scrollController = ScrollController();
 
   //================ Booleans =================\\
   var isScrollToTopBtnVisible = false.obs;
   var isLoading = false.obs;
+  var isLoadingMore = false.obs;
   var hasMoreData = true.obs;
   var hasError = false.obs;
 
@@ -46,109 +30,104 @@ class HomeController extends GetxController {
   var firstName = "";
   var apiKey = dotenv.get('APIKEY', fallback: "API_KEY_NOT_FOUND");
 
-  //================ Scroll to Top =================//
-  void scrollToTop() {
-    scrollController.animateTo(0,
-        duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
-  }
-
-//================ Scroll Listener =================//
-
-  void scrollListener() {
-    //========= Show action button ========//
-    if (scrollController.position.pixels >= 150) {
-      isScrollToTopBtnVisible.value = true;
-      update();
-    }
-    //========= Hide action button ========//
-    else if (scrollController.position.pixels < 150) {
-      isScrollToTopBtnVisible.value = false;
-      update();
-    }
-  }
-
-//================ Check notification permission status =================//
   var isNotificationGranted = prefs.getBool("isNotificationGranted") ?? false;
 
+  var marketNews = <MarketNewsModel>[].obs;
+  var displayedMarketNews = <MarketNewsModel>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadUserFirstName();
+    loadContent();
+    scrollController.addListener(scrollListener);
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
+
+  //================ Load User =================\\
   Future<void> loadUserFirstName() async {
     firstName = userController.getFirstName() ?? "";
-    log("User's first name:$firstName");
+    log("User's first name: $firstName");
   }
 
-  //================ Load Content =================//
-  var marketNewsListModel = MarketNewsListModel.fromJson(null).obs;
-  var marketNewsModel = MarketNewsModel.fromJson(null).obs;
-  var marketNews = <MarketNewsModel>[].obs;
-  List<MarketNewsModel> displayedMarketNews = [];
-
-  //Load initialContent - First 20
-  Future<void> loadInitialData() async {
-    displayedMarketNews = marketNews.take(20).toList();
-    hasMoreData.value = displayedMarketNews.length < marketNews.length;
-    update();
-  }
-
-  //Load More Content
-  Future<void> loadMore() async {
-    int currentLength = displayedMarketNews.length;
-
-    await Future.delayed(const Duration(seconds: 2)); // Simulate loading delay
-
-    displayedMarketNews.addAll(marketNews.skip(currentLength).take(20));
-    hasMoreData.value = displayedMarketNews.length < marketNews.length;
-    update();
-  }
-
+  //================ Load Content =================\\
   Future<void> loadContent() async {
     isLoading.value = true;
-    update();
+    hasError.value = false;
 
-    var url = ApiUrl.baseUrl +
+    final url = ApiUrl.baseUrl +
         ApiUrl.marketNewsEndpoint +
         ApiUrl.category("general") +
         ApiUrl.token(apiKey);
 
-    log("This is the url: $url");
+    log("Requesting URL: $url");
 
-    //HTTP Client Service
-    http.Response? response = await HttpClientService.getRequest(url);
-
-    if (response == null) {
-      isLoading.value = false;
-      log("The response is null");
-      return;
-    }
     try {
-      // Convert to json
-      var responseJson = jsonDecode(response.body);
+      final response = await HttpClientService.getRequest(url);
+
+      if (response == null) throw Exception("Null response from API");
 
       if (response.statusCode == 200) {
-        hasError.value = false;
-        update();
-        // Map the response to MarketNewsListModel
-        List<dynamic> newsJsonList = responseJson as List<dynamic>;
-        marketNewsListModel.value = MarketNewsListModel.fromJson(newsJsonList);
+        final List<dynamic> responseJson = jsonDecode(response.body);
+        final List<MarketNewsModel> newsList =
+            MarketNewsListModel.fromJson(responseJson).news;
 
-        // Assign the individual MarketNewsModel list to marketNews observable
-        marketNews.value = marketNewsListModel.value.news;
+        marketNews.assignAll(newsList);
+        displayedMarketNews.assignAll(marketNews.take(20));
+        hasMoreData.value = displayedMarketNews.length < marketNews.length;
 
-        // Print the first item in the marketNews list to verify mapping
-        if (marketNews.isNotEmpty) {
-          log("First news item: ${marketNews.first.headline}");
-        }
+        log("Loaded ${displayedMarketNews.length} of ${marketNews.length} items");
       } else {
-        hasError.value = true;
-        update();
-        log("Request failed with status: ${response.statusCode}");
-        log("Response body: ${response.body}");
+        throw HttpException("Failed with status code ${response.statusCode}");
       }
     } catch (e) {
+      log("Error loading content: $e");
       hasError.value = true;
-      update();
-      log(e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  //================ Load More Content =================\\
+  Future<void> loadMore() async {
+    if (isLoadingMore.value || !hasMoreData.value) return;
+
+    isLoadingMore.value = true;
+
+    await Future.delayed(const Duration(seconds: 2)); // Simulate delay
+
+    final currentLength = displayedMarketNews.length;
+    final nextItems = marketNews.skip(currentLength).take(20).toList();
+
+    displayedMarketNews.addAll(nextItems);
+    hasMoreData.value = displayedMarketNews.length < marketNews.length;
+
+    isLoadingMore.value = false;
+  }
+
+  //================ Scroll Handling =================\\
+  void scrollListener() {
+    if (scrollController.position.pixels >= 150) {
+      isScrollToTopBtnVisible.value = true;
+    } else {
+      isScrollToTopBtnVisible.value = false;
     }
 
-    isLoading.value = false;
-    update();
+    if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent - 200 &&
+        !isLoadingMore.value &&
+        hasMoreData.value) {
+      loadMore();
+    }
+  }
+
+  void scrollToTop() {
+    scrollController.animateTo(0,
+        duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
   }
 }

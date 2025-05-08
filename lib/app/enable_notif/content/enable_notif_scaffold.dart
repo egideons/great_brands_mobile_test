@@ -33,20 +33,25 @@ class EnableNotifScaffold extends GetView<NotificationsController> {
                   children: [
                     SvgPicture.asset(
                       Assets.notificationSvg,
+                      height: 80,
+                      width: 80,
                       alignment: Alignment.center,
+                      colorFilter: ColorFilter.mode(
+                          const Color(0xFFb3b6ba).withOpacity(.8),
+                          BlendMode.srcIn),
                     ),
                     Positioned(
                       top: 0,
                       right: 0,
                       child: Container(
-                        height: 20,
-                        width: 20,
+                        height: 26,
+                        width: 26,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white,
+                          color: kPrimaryColor,
                           border: Border.all(
-                            color: kPrimaryColor,
-                            width: 2,
+                            color: Colors.white,
+                            width: 4,
                           ),
                         ),
                       ),

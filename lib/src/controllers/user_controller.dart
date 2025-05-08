@@ -18,4 +18,9 @@ class UserController extends GetxController {
   String? getFirstName() {
     return userBox.get('firstName', defaultValue: '') ?? "";
   }
+
+  // Method to retrieve user's last name
+  String? getLastName() {
+    return userBox.get('lastName', defaultValue: '') ?? "";
+  }
 }

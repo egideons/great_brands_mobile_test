@@ -17,12 +17,9 @@ dependencies:
   http:
   shared_preferences:
   intl:
-  loading_animation_widget:
   url_launcher:
-  skeletonizer:
   flutter_svg:
   flutter_dotenv:
-  permission_handler:
   hive:
   hive_flutter:
   connectivity_plus:

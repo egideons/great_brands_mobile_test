@@ -6,7 +6,7 @@ class Assets {
   static const darkAppIcon = "assets/image/png/app_icon_dark_bg.png";
 
   //Icons
-  static const notificationSvg = "assets/icons/svg/notification.svg";
+  static const notificationSvg = "assets/icons/message.svg";
 
 //Images
   static const homeImage1 = "assets/images/png/home_img_1.png";

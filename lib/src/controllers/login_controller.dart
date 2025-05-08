@@ -95,9 +95,13 @@ class LoginController extends GetxController {
 
       await Future.delayed(const Duration(milliseconds: 800));
       String firstName = userController.getFirstName() ?? "";
+      String lastName = userController.getLastName() ?? "";
 
-      if (firstName.isNotEmpty) {
-        log("User's first name: $firstName");
+      if (firstName.isNotEmpty && lastName.isNotEmpty) {
+        log(
+          "User's first and last name: $firstName $lastName",
+          name: "User's Name",
+        );
         ApiProcessorController.successSnack("Login successful");
         await Get.offAll(
           () => const EnableNotif(),
